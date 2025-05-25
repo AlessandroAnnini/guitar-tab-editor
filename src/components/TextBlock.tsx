@@ -6,11 +6,11 @@ import {
   Music,
   Text,
   Edit,
-  Eye,
   Copy,
   FileText,
   Code,
 } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
 
 // Import shadcn components
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -52,39 +52,6 @@ const TextBlock: React.FC<TextBlockProps> = ({
   const cancelEditing = () => {
     setCurrentContent(block.content || '');
     setEditing(false);
-  };
-
-  // Simple Markdown renderer (could use a library for better rendering)
-  const renderMarkdown = (text: string): string => {
-    if (!text) return '';
-
-    // Handle headers
-    text = text.replace(
-      /^# (.*?)$/gm,
-      '<h1 class="text-2xl font-bold mb-2">$1</h1>'
-    );
-    text = text.replace(
-      /^## (.*?)$/gm,
-      '<h2 class="text-xl font-bold mb-2">$1</h2>'
-    );
-    text = text.replace(
-      /^### (.*?)$/gm,
-      '<h3 class="text-lg font-bold mb-2">$1</h3>'
-    );
-
-    // Handle bold
-    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-    // Handle italic
-    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-    // Handle paragraphs
-    text = text
-      .split('\n\n')
-      .map((p) => `<p class="mb-2">${p}</p>`)
-      .join('');
-
-    return text;
   };
 
   return (
@@ -146,10 +113,36 @@ const TextBlock: React.FC<TextBlockProps> = ({
             </div>
           </div>
         ) : viewMode === 'preview' ? (
-          <div
-            className="prose prose-sm max-w-none"
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(block.content) }}
-          />
+          <div>
+            <ReactMarkdown
+              components={{
+                h1: ({ node, ...props }) => (
+                  <h1 className="text-2xl font-bold mb-2" {...props} />
+                ),
+                h2: ({ node, ...props }) => (
+                  <h2 className="text-xl font-bold mb-2" {...props} />
+                ),
+                h3: ({ node, ...props }) => (
+                  <h3 className="text-lg font-bold mb-2" {...props} />
+                ),
+                p: ({ node, ...props }) => <p className="mb-4" {...props} />,
+                ul: ({ node, ...props }) => (
+                  <ul className="mb-4 ml-6 list-disc" {...props} />
+                ),
+                ol: ({ node, ...props }) => (
+                  <ol className="mb-4 ml-6 list-decimal" {...props} />
+                ),
+                li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                blockquote: ({ node, ...props }) => (
+                  <blockquote
+                    className="border-l-4 border-gray-300 pl-4 italic my-4"
+                    {...props}
+                  />
+                ),
+              }}>
+              {block.content || ''}
+            </ReactMarkdown>
+          </div>
         ) : (
           <pre className="text-sm text-gray-700 whitespace-pre-wrap">
             {block.content}
