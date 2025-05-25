@@ -17,17 +17,33 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
+          // Handle node_modules
           if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'react-vendor';
-            if (id.includes('tone')) return 'tone-vendor';
-            if (id.includes('lucide')) return 'icons-vendor';
-            return 'vendor';
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'react-vendor'; // Keep all React modules together
+            }
+            if (id.includes('tone')) {
+              return 'tone-vendor';
+            }
+            if (id.includes('lucide')) {
+              return 'icons';
+            }
+            return 'vendor'; // Other dependencies
           }
-          if (id.includes('src/audio-utils')) return 'audio';
-          if (id.includes('src/utils')) return 'utils';
-          if (id.includes('src/components/ui')) return 'ui-components';
-          if (id.includes('src/components')) return 'components';
-          if (id.includes('src/stores')) return 'stores';
+
+          // Handle app code
+          if (id.includes('src/audio-utils')) {
+            return 'app-audio';
+          }
+          if (id.includes('src/components')) {
+            return 'app-components';
+          }
+          if (id.includes('src/stores')) {
+            return 'app-stores';
+          }
+          if (id.includes('src/utils')) {
+            return 'app-utils';
+          }
         },
       },
     },
