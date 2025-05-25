@@ -49,7 +49,6 @@ export const useBlocksStore = create<BlocksState>()(
         })),
 
       addBlock: (type, afterBlockId = null) => {
-        const { blocks } = get();
         // Get tuning from metadata store
         const tuning = useMetadataStore.getState().metadata.tuning;
 

@@ -2,18 +2,12 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 
 interface FretboardProps {
-  currentBar: number;
-  totalBars: number;
   onFretClick: (string: number, fret: number) => void;
-  onBarChange: (newBar: number) => void;
   tuning?: string[];
 }
 
 const Fretboard: React.FC<FretboardProps> = ({
-  currentBar,
-  totalBars,
   onFretClick,
-  onBarChange,
   tuning = ['E', 'A', 'D', 'G', 'B', 'E'],
 }) => {
   // Make sure we have proper reversed order for display (high E to low E)

@@ -64,11 +64,6 @@ const TabBlock: React.FC<TabBlockProps> = ({
   const [editing, setEditing] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [currentContent, setCurrentContent] = useState(block.content || '');
-  const [fretboardOpen, setFretboardOpen] = useState(false);
-  const [currentBar, setCurrentBar] = useState(0);
-  const [parsedTab, setParsedTab] = useState<ReturnType<
-    typeof tabUtils.parseTab
-  > | null>(null);
   const [currentTuning, setCurrentTuning] = useState(tuning);
 
   // Add refs for cursor position tracking
@@ -122,9 +117,6 @@ const TabBlock: React.FC<TabBlockProps> = ({
   useEffect(() => {
     // Parse tab on mount or when content changes
     try {
-      const parsed = tabUtils.parseTab(block.content);
-      setParsedTab(parsed);
-
       // Update bars count if needed
       const bars = tabUtils.countBars(block.content);
       if (bars !== block.bars) {
@@ -209,14 +201,12 @@ const TabBlock: React.FC<TabBlockProps> = ({
 
     // Find cursor position within the textarea
     const cursorPos = cursorPositionRef.current.start;
-    let currentLine = 0;
     let currentLineStartPos = 0;
 
     // Find which line the cursor is on and its position within that line
     for (let i = 0; i < lines.length; i++) {
       const lineLength = lines[i].length + 1; // +1 for the newline character
       if (currentLineStartPos + lineLength > cursorPos) {
-        currentLine = i;
         break;
       }
       currentLineStartPos += lineLength;
@@ -387,10 +377,7 @@ const TabBlock: React.FC<TabBlockProps> = ({
                 </AccordionTrigger>
                 <AccordionContent>
                   <Fretboard
-                    currentBar={currentBar}
-                    totalBars={block.bars}
                     onFretClick={handleFretClick}
-                    onBarChange={setCurrentBar}
                     tuning={tuning.split(' ')}
                   />
                   <div className="text-xs text-gray-500 mt-1">

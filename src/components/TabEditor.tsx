@@ -282,7 +282,7 @@ const TabEditor: React.FC = () => {
 
         // Play the bar
         const barNotes = parsedTab.notes[barIndex];
-        await audioUtils.playBar(barNotes, block.duration, block.tempo);
+        await audioUtils.playBar(barNotes, block.tempo);
       }
     } catch (error) {
       console.error('Playback error:', error);
@@ -339,7 +339,7 @@ const TabEditor: React.FC = () => {
 
           // Play the bar
           const barNotes = parsedTab.notes[barIndex];
-          await audioUtils.playBar(barNotes, block.duration, block.tempo);
+          await audioUtils.playBar(barNotes, block.tempo);
         }
       }
     } catch (error) {

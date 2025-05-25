@@ -96,7 +96,7 @@ export const useTabStore = create<TabStore>()(
         })),
 
       addBlock: (type, afterBlockId = null) => {
-        const { metadata, blocks } = get();
+        const { metadata } = get();
 
         // Create the base block
         const baseBlock = {

@@ -83,7 +83,7 @@ export const useAudioStore = create<AudioStore>()((set, get) => ({
 
         // Play the bar
         const barNotes = parsedTab.notes[barIndex];
-        await audioUtils.playBar(barNotes, block.duration, block.tempo);
+        await audioUtils.playBar(barNotes, block.tempo);
       }
     } catch (error) {
       console.error('Playback error:', error);
@@ -168,7 +168,7 @@ export const useAudioStore = create<AudioStore>()((set, get) => ({
           const barNotes = parsedTab.notes[barIndex];
 
           // Wait for the bar to complete before moving to next
-          await audioUtils.playBar(barNotes, block.duration, block.tempo);
+          await audioUtils.playBar(barNotes, block.tempo);
 
           // Short delay between bars to avoid audio conflicts
           if (barIndex < parsedTab.notes.length - 1) {

@@ -76,7 +76,6 @@ async function playBar(
     technique?: string;
     targetFret?: number;
   }[],
-  duration: string,
   tempo: number
 ): Promise<void> {
   if (Tone.getTransport().state === 'started') {
@@ -131,15 +130,14 @@ async function playBar(
         const targetFret = note.targetFret;
         const toneNote = fretToNote(note.string, baseFret, scheduledInstrument);
         if (!toneNote) return;
-        Tone.getTransport().schedule((scheduleTime) => {
+        Tone.getTransport().schedule((_time) => {
           try {
-            const currentSynth = getCurrentSynth();
             const noteDuration = timePerPosition * 0.8;
             if (!technique) {
               playNoteWithBuffer(
                 toneNote,
                 noteDuration,
-                scheduleTime,
+                _time,
                 scheduledInstrument
               );
             } else if (technique === 'x') {
@@ -155,11 +153,11 @@ async function playBar(
               dampedSynth.triggerAttackRelease(
                 toneNote,
                 noteDuration * 0.2,
-                scheduleTime
+                _time
               );
               setTimeout(
                 () => dampedSynth.dispose(),
-                (scheduleTime - Tone.now() + noteDuration) * 1000
+                (_time - Tone.now() + noteDuration) * 1000
               );
             } else if (technique === 'h' || technique === 'p') {
               const actualTargetFret =
@@ -173,7 +171,7 @@ async function playBar(
                 playNoteWithBuffer(
                   toneNote,
                   noteDuration,
-                  scheduleTime,
+                  _time,
                   scheduledInstrument
                 );
                 return;
@@ -181,7 +179,7 @@ async function playBar(
               playNoteWithBuffer(
                 toneNote,
                 noteDuration * 0.3,
-                scheduleTime,
+                _time,
                 scheduledInstrument
               );
               const synth = new Tone.Synth({
@@ -196,11 +194,11 @@ async function playBar(
               synth.triggerAttackRelease(
                 targetNote,
                 noteDuration * 0.7,
-                scheduleTime + noteDuration * 0.3
+                _time + noteDuration * 0.3
               );
               setTimeout(
                 () => synth.dispose(),
-                (scheduleTime - Tone.now() + noteDuration + 0.1) * 1000
+                (_time - Tone.now() + noteDuration + 0.1) * 1000
               );
             } else if (technique === 'b' || technique === 'br') {
               const actualTargetFret = targetFret || baseFret + 2;
@@ -213,36 +211,36 @@ async function playBar(
                 playNoteWithBuffer(
                   toneNote,
                   noteDuration,
-                  scheduleTime,
+                  _time,
                   scheduledInstrument
                 );
                 return;
               }
               const bendSynth = new Tone.Synth().toDestination();
-              bendSynth.triggerAttack(toneNote, scheduleTime);
+              bendSynth.triggerAttack(toneNote, _time);
               const startFreq = Tone.Frequency(toneNote).toFrequency();
               const endFreq = Tone.Frequency(targetNote).toFrequency();
-              bendSynth.frequency.setValueAtTime(startFreq, scheduleTime);
+              bendSynth.frequency.setValueAtTime(startFreq, _time);
               if (technique === 'b') {
                 bendSynth.frequency.linearRampToValueAtTime(
                   endFreq,
-                  scheduleTime + noteDuration * 0.5
+                  _time + noteDuration * 0.5
                 );
-                bendSynth.triggerRelease(scheduleTime + noteDuration);
+                bendSynth.triggerRelease(_time + noteDuration);
               } else {
                 bendSynth.frequency.linearRampToValueAtTime(
                   endFreq,
-                  scheduleTime + noteDuration * 0.4
+                  _time + noteDuration * 0.4
                 );
                 bendSynth.frequency.linearRampToValueAtTime(
                   startFreq,
-                  scheduleTime + noteDuration * 0.8
+                  _time + noteDuration * 0.8
                 );
-                bendSynth.triggerRelease(scheduleTime + noteDuration);
+                bendSynth.triggerRelease(_time + noteDuration);
               }
               setTimeout(
                 () => bendSynth.dispose(),
-                (scheduleTime - Tone.now() + noteDuration + 0.2) * 1000
+                (_time - Tone.now() + noteDuration + 0.2) * 1000
               );
             } else if (technique === '/' || technique === '\\') {
               const direction = technique === '/' ? 1 : -1;
@@ -256,24 +254,24 @@ async function playBar(
                 playNoteWithBuffer(
                   toneNote,
                   noteDuration,
-                  scheduleTime,
+                  _time,
                   scheduledInstrument
                 );
                 return;
               }
               const slideSynth = new Tone.Synth().toDestination();
-              slideSynth.triggerAttack(toneNote, scheduleTime);
+              slideSynth.triggerAttack(toneNote, _time);
               const startFreq = Tone.Frequency(toneNote).toFrequency();
               const endFreq = Tone.Frequency(targetNote).toFrequency();
-              slideSynth.frequency.setValueAtTime(startFreq, scheduleTime);
+              slideSynth.frequency.setValueAtTime(startFreq, _time);
               slideSynth.frequency.linearRampToValueAtTime(
                 endFreq,
-                scheduleTime + noteDuration * 0.8
+                _time + noteDuration * 0.8
               );
-              slideSynth.triggerRelease(scheduleTime + noteDuration);
+              slideSynth.triggerRelease(_time + noteDuration);
               setTimeout(
                 () => slideSynth.dispose(),
-                (scheduleTime - Tone.now() + noteDuration + 0.2) * 1000
+                (_time - Tone.now() + noteDuration + 0.2) * 1000
               );
             } else if (technique === 'v' || technique === '~') {
               const vibratoSynth = new Tone.Synth({
@@ -286,24 +284,24 @@ async function playBar(
                 },
               }).toDestination();
               const baseFreq = Tone.Frequency(toneNote).toFrequency();
-              vibratoSynth.triggerAttack(toneNote, scheduleTime);
+              vibratoSynth.triggerAttack(toneNote, _time);
               const vibrato = new Tone.LFO({
                 frequency: 6,
                 min: baseFreq * 0.98,
                 max: baseFreq * 1.02,
               })
                 .connect(vibratoSynth.frequency)
-                .start(scheduleTime);
-              vibratoSynth.triggerRelease(scheduleTime + noteDuration);
+                .start(_time);
+              vibratoSynth.triggerRelease(_time + noteDuration);
               setTimeout(() => {
                 vibrato.dispose();
                 vibratoSynth.dispose();
-              }, (scheduleTime - Tone.now() + noteDuration + 0.2) * 1000);
+              }, (_time - Tone.now() + noteDuration + 0.2) * 1000);
             } else {
               playNoteWithBuffer(
                 toneNote,
                 noteDuration,
-                scheduleTime,
+                _time,
                 scheduledInstrument
               );
             }
@@ -314,7 +312,7 @@ async function playBar(
                 currentSynth.triggerAttackRelease(
                   toneNote,
                   timePerPosition * 0.8,
-                  scheduleTime
+                  _time
                 );
               }
             } catch (fallbackError) {}
@@ -322,7 +320,7 @@ async function playBar(
         }, time);
       });
     });
-    Tone.getTransport().schedule((time) => {
+    Tone.getTransport().schedule((_time) => {
       Tone.getTransport().stop();
       Tone.getTransport().cancel();
       resolve();
