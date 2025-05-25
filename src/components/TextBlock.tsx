@@ -75,6 +75,13 @@ const TextBlock: React.FC<TextBlockProps> = ({
               size="sm"
               variant="ghost"
               className="h-4 w-4 p-0"
+              onClick={() => setEditing(true)}>
+              <Edit className="h-3 w-3" />
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-4 w-4 p-0"
               onClick={() =>
                 setViewMode(viewMode === 'preview' ? 'source' : 'preview')
               }>
@@ -83,13 +90,6 @@ const TextBlock: React.FC<TextBlockProps> = ({
               ) : (
                 <FileText className="h-3 w-3" />
               )}
-            </Button>
-            <Button
-              size="sm"
-              variant="ghost"
-              className="h-4 w-4 p-0"
-              onClick={() => setEditing(true)}>
-              <Edit className="h-3 w-3" />
             </Button>
           </div>
         )}
