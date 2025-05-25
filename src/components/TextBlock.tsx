@@ -8,6 +8,8 @@ import {
   Edit,
   Eye,
   Copy,
+  FileText,
+  Code,
 } from 'lucide-react';
 
 // Import shadcn components
@@ -109,9 +111,9 @@ const TextBlock: React.FC<TextBlockProps> = ({
                 setViewMode(viewMode === 'preview' ? 'source' : 'preview')
               }>
               {viewMode === 'preview' ? (
-                <Edit className="h-3 w-3" />
+                <Code className="h-3 w-3" />
               ) : (
-                <Eye className="h-3 w-3" />
+                <FileText className="h-3 w-3" />
               )}
             </Button>
             <Button
