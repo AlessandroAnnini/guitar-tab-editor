@@ -13,36 +13,22 @@ export default defineConfig({
     },
   },
   build: {
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Handle node_modules
+        manualChunks(id) {
+          // Simple chunking: React packages together, Tone.js separate, everything else in main bundle
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('scheduler')) {
-              return 'react-vendor'; // Keep all React modules together
+            if (
+              id.includes('react') ||
+              id.includes('scheduler') ||
+              id.includes('jsx')
+            ) {
+              return 'react-vendor';
             }
             if (id.includes('tone')) {
               return 'tone-vendor';
             }
-            if (id.includes('lucide')) {
-              return 'icons';
-            }
-            return 'vendor'; // Other dependencies
-          }
-
-          // Handle app code
-          if (id.includes('src/audio-utils')) {
-            return 'app-audio';
-          }
-          if (id.includes('src/components')) {
-            return 'app-components';
-          }
-          if (id.includes('src/stores')) {
-            return 'app-stores';
-          }
-          if (id.includes('src/utils')) {
-            return 'app-utils';
           }
         },
       },
