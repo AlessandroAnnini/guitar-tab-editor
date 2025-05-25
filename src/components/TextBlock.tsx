@@ -11,6 +11,7 @@ import {
   Code,
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // Import shadcn components
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -113,8 +114,9 @@ const TextBlock: React.FC<TextBlockProps> = ({
             </div>
           </div>
         ) : viewMode === 'preview' ? (
-          <div>
+          <div className="markdown-body">
             <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({ node, ...props }) => (
                   <h1 className="text-2xl font-bold mb-2" {...props} />
@@ -138,6 +140,49 @@ const TextBlock: React.FC<TextBlockProps> = ({
                     className="border-l-4 border-gray-300 pl-4 italic my-4"
                     {...props}
                   />
+                ),
+                table: ({ node, ...props }) => (
+                  <table
+                    className="border-collapse table-auto w-full mb-4"
+                    {...props}
+                  />
+                ),
+                thead: ({ node, ...props }) => (
+                  <thead className="bg-gray-100" {...props} />
+                ),
+                tbody: ({ node, ...props }) => <tbody {...props} />,
+                tr: ({ node, ...props }) => (
+                  <tr className="border-b border-gray-200" {...props} />
+                ),
+                th: ({ node, ...props }) => (
+                  <th
+                    className="border px-4 py-2 text-left font-semibold"
+                    {...props}
+                  />
+                ),
+                td: ({ node, ...props }) => (
+                  <td className="border px-4 py-2" {...props} />
+                ),
+                a: ({ node, ...props }) => (
+                  <a className="text-blue-500 hover:underline" {...props} />
+                ),
+                pre: ({ node, ...props }) => (
+                  <pre
+                    className="bg-gray-100 p-2 rounded text-sm overflow-auto my-2"
+                    {...props}
+                  />
+                ),
+                code: ({ node, ...props }) => (
+                  <code
+                    className="bg-gray-100 text-red-500 px-1 py-0.5 rounded text-sm"
+                    {...props}
+                  />
+                ),
+                del: ({ node, ...props }) => (
+                  <del className="line-through" {...props} />
+                ),
+                hr: ({ node, ...props }) => (
+                  <hr className="my-6 border-gray-300" {...props} />
                 ),
               }}>
               {block.content || ''}
