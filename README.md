@@ -2,7 +2,7 @@
 
 A modern, interactive guitar tablature editor built with React. Create, edit, and play guitar tabs with a clean and intuitive interface.
 
-![Guitar Tab Editor Screenshot](https://placeholder-for-screenshot.com)
+![Guitar Tab Editor Screenshot](assets/screen1.png)
 
 ## Features
 
