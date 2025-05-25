@@ -23,11 +23,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -292,47 +287,6 @@ const TabBlock: React.FC<TabBlockProps> = ({
           className={`flex space-x-1 transition-opacity ${
             hovering ? 'opacity-100' : 'opacity-0'
           }`}>
-          {!isPlaying ? (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="h-4 w-4 p-0"
-              onClick={() => onPlay(block.id)}>
-              <Play className="h-3 w-3" />
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="h-4 w-4 p-0"
-              onClick={onStop}>
-              <Square className="h-3 w-3" />
-            </Button>
-          )}
-
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-4 w-4 p-0"
-            onClick={() => setEditing(!editing)}>
-            <Edit className="h-3 w-3" />
-          </Button>
-
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-4 w-4 p-0"
-            onClick={() => {
-              const normalizedContent = tabUtils.normalizeTabLines(
-                block.content
-              );
-              onUpdate(block.id, { content: normalizedContent });
-              setCurrentContent(normalizedContent);
-            }}
-            title="Format tab">
-            <AlignJustify className="h-3 w-3" />
-          </Button>
-
           <Dialog>
             <DialogTrigger asChild>
               <Button size="sm" variant="ghost" className="h-4 w-4 p-0">
@@ -361,6 +315,47 @@ const TabBlock: React.FC<TabBlockProps> = ({
               </div>
             </DialogContent>
           </Dialog>
+
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-4 w-4 p-0"
+            onClick={() => setEditing(!editing)}>
+            <Edit className="h-3 w-3" />
+          </Button>
+
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-4 w-4 p-0"
+            onClick={() => {
+              const normalizedContent = tabUtils.normalizeTabLines(
+                block.content
+              );
+              onUpdate(block.id, { content: normalizedContent });
+              setCurrentContent(normalizedContent);
+            }}
+            title="Format tab">
+            <AlignJustify className="h-3 w-3" />
+          </Button>
+
+          {!isPlaying ? (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-4 w-4 p-0"
+              onClick={() => onPlay(block.id)}>
+              <Play className="h-3 w-3" />
+            </Button>
+          ) : (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-4 w-4 p-0"
+              onClick={onStop}>
+              <Square className="h-3 w-3" />
+            </Button>
+          )}
         </div>
       </CardHeader>
 
