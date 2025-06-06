@@ -128,7 +128,7 @@ const TabToolbar: React.FC<TabToolbarProps> = ({
           </DialogContent>
         </Dialog>
 
-        <Dialog open={importOpen} onOpenChange={setImportOpen}>
+        {/* <Dialog open={importOpen} onOpenChange={setImportOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <FileUp className="h-4 w-4 mr-2" />
@@ -156,9 +156,9 @@ const TabToolbar: React.FC<TabToolbarProps> = ({
               <Button onClick={handleImport}>Import</Button>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
 
-        <Dialog open={exportOpen} onOpenChange={setExportOpen}>
+        {/* <Dialog open={exportOpen} onOpenChange={setExportOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="sm">
               <FileDown className="h-4 w-4 mr-2" />
@@ -189,9 +189,9 @@ const TabToolbar: React.FC<TabToolbarProps> = ({
               </div>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
 
-        {!isPlaying ? (
+        {/* {!isPlaying ? (
           <Button
             size="sm"
             variant="default"
@@ -205,7 +205,7 @@ const TabToolbar: React.FC<TabToolbarProps> = ({
             <Square className="h-4 w-4 mr-2" />
             Stop
           </Button>
-        )}
+        )} */}
       </div>
     </div>
   );

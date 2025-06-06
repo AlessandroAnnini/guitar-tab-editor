@@ -329,7 +329,7 @@ const TabBlock: React.FC<TabBlockProps> = ({
             <AlignJustify className="h-3 w-3" />
           </Button>
 
-          {!isPlaying ? (
+          {/* {!isPlaying ? (
             <Button
               size="sm"
               variant="ghost"
@@ -345,7 +345,7 @@ const TabBlock: React.FC<TabBlockProps> = ({
               onClick={onStop}>
               <Square className="h-3 w-3" />
             </Button>
-          )}
+          )} */}
         </div>
       </CardHeader>
 
