@@ -1,5 +1,9 @@
 import React from 'react';
-import { Play, Square, FileDown, FileUp, Settings, Copy } from 'lucide-react';
+import {
+  // Play, Square, FileDown, FileUp,
+  Settings,
+  // Copy
+} from 'lucide-react';
 import { ModeToggle } from '@/components/mode-toggle';
 
 // Import shadcn components
@@ -9,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
+  // DialogFooter,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+// import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 
 import type { TabToolbarProps } from '../types';
@@ -31,22 +35,22 @@ const TabToolbar: React.FC<TabToolbarProps> = ({
   tuning,
   instrument,
   onUpdateMetadata,
-  onPlayAll,
-  onStopPlayback,
-  importOpen,
-  setImportOpen,
-  exportOpen,
-  setExportOpen,
+  // onPlayAll,
+  // onStopPlayback,
+  // importOpen,
+  // setImportOpen,
+  // exportOpen,
+  // setExportOpen,
   settingsOpen,
   setSettingsOpen,
-  importText,
-  setImportText,
-  exportText,
-  handleImport,
-  handleCopyExport,
-  handleDownloadExport,
-  isPlaying,
-  hasTabBlocks,
+  // importText,
+  // setImportText,
+  // exportText,
+  // handleImport,
+  // handleCopyExport,
+  // handleDownloadExport,
+  // isPlaying,
+  // hasTabBlocks,
 }) => {
   return (
     <div className="flex justify-between items-center mb-4">
