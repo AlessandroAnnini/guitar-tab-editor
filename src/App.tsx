@@ -2,6 +2,7 @@ import React, { memo, useEffect } from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import TabToolbar from './components/TabToolbar';
 import BlockList from './components/BlockList';
+import Attribution from './components/Attribution';
 import {
   useBlockManager,
   useTabMetadata,
@@ -101,6 +102,8 @@ const App: React.FC = () => {
           tuning={metadata.tuning}
         />
       </div>
+
+      <Attribution />
     </ThemeProvider>
   );
 };
